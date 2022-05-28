@@ -36,11 +36,13 @@ namespace Catalog.Controllers
         public ActionResult<Item> GetItem(Guid id)
         {
             var item = repository.GetItem(id);
-            if(item is null)
+            switch (item)
             {
-                return NotFound();
+                case null:
+                    return NotFound();
+                default:
+                    return item;
             }
-            return item;
         }
     }
 }
