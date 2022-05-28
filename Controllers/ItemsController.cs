@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Repositories;
 using Catalog.Entities;
+using Catalog.Dtos;
 
 namespace Catalog.Controllers
 {
@@ -24,10 +25,16 @@ namespace Catalog.Controllers
 
         // when someone does GET to /items this GetItems will handle that
         [HttpGet]
-        public IEnumerable<Item> GetItems()
+        public IEnumerable<ItemDTO> GetItems()
         {
             // we previously assigned repository to an instance of InMemItemsRepo and that had a method to return all items called .GetItems(), we use that here to assign items to items(line 30) by envoking that method repository.GetItems()
-            var items = repository.GetItems();
+            var items = repository.GetItems().Select( item => new ItemDTO
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Price = item.Price,
+                CreatedDate = item.CreatedDate,
+            });
             return items;
         }
 
