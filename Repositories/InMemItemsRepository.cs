@@ -31,7 +31,7 @@ namespace Catalog.Repositories
         */
 
         /*Creating a method that returns items(line 12) and items is a List that contains multiple instances of the Item record. To be able to iterate over that, we need the IEmumerable*/
-        public IEnumerable<Item> Items => items;
+        public IEnumerable<Item> GetItems() => items;
 
         // Creating a method that returns a single Item record from Items where the Id matches with the paramater passed in
         public Item GetItem(Guid id)
@@ -39,9 +39,5 @@ namespace Catalog.Repositories
             return items.Where(item => item.Id == id).SingleOrDefault();
         }
 
-        public IEnumerable<Item> GetItems()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
