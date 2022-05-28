@@ -28,13 +28,7 @@ namespace Catalog.Controllers
         public IEnumerable<ItemDTO> GetItems()
         {
             // we previously assigned repository to an instance of InMemItemsRepo and that had a method to return all items called .GetItems(), we use that here to assign items to items(line 30) by envoking that method repository.GetItems()
-            var items = repository.GetItems().Select( item => new ItemDTO
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Price = item.Price,
-                CreatedDate = item.CreatedDate,
-            });
+            var items = repository.GetItems().Select( item => item.AsDto());
             return items;
         }
 
@@ -42,7 +36,7 @@ namespace Catalog.Controllers
         [HttpGet("{id}")]
 
         // ActionResult allows us to return multiple things from a function, we can return NotFound or item
-        public ActionResult<Item> GetItem(Guid id)
+        public ActionResult<ItemDTO> GetItem(Guid id)
         {
             var item = repository.GetItem(id);
             switch (item)
@@ -50,7 +44,7 @@ namespace Catalog.Controllers
                 case null:
                     return NotFound();
                 default:
-                    return item;
+                    return item.AsDto();
             }
         }
     }
