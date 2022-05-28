@@ -13,13 +13,13 @@ namespace Catalog.Controllers
     public class ItemsController : ControllerBase
     {
         // initialising a private read only repository that is a type of InMemItemsRepo
-        private readonly InMemItemsRepo repository;
+        private readonly IInMemItemsRepoInterface repository;
 
 
-        public ItemsController()
+        public ItemsController(IInMemItemsRepoInterface repository)
         {   
             // asigning repository to a new instance of InMemItemsRepo using the new contructor
-            repository = new InMemItemsRepo();
+            this.repository = repository;
         }
 
         // when someone does GET to /items this GetItems will handle that
@@ -33,6 +33,8 @@ namespace Catalog.Controllers
 
         // Get /items/{id}
         [HttpGet("{id}")]
+
+        // ActionResult allows us to return multiple things from a function, we can return NotFound or item
         public ActionResult<Item> GetItem(Guid id)
         {
             var item = repository.GetItem(id);
